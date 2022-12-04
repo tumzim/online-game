@@ -22,6 +22,12 @@ io.on('connection', function (socket) {
         io.emit('playerDisconnect', socket.id);
     });
 
+    socket.on('user pressed left', function(playerID){
+        players.playerID.body.setVelocityX(-150)
+        let data = {velocityX:-150, playerID:playerID}
+        io.emit('change velocity',data)
+    })
+
     // create a new player and add it to our players object
     //socket.id is the key 
     players[socket.id] = {

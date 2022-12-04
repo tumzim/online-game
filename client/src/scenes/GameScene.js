@@ -8,10 +8,20 @@ export default class GameScene extends Phaser.Scene {
 
     init() {
         this.socket = io("http://localhost:3000");
-        this.socketEvents();
+  
     }
 
-    socketEvents() {
+
+    create() {
+        //add static group for other players
+        this.otherPlayers = this.physics.add.group();
+
+        // this.cursors = this.input.keyboard.createCursorKeys();
+
+        this.input.keyboard.on('keydown-LEFT',  () => {
+            this.socket.emit('user pressed left', player.playerId)
+        }, this)
+
         this.socket.on('currentPlayers', (players) => {
             Object.keys(players).forEach((id) => {
                 // console.log("************socket", this.socket.id)
@@ -37,34 +47,34 @@ export default class GameScene extends Phaser.Scene {
                 }
             });
         });
-    }
 
-    create() {
-        //add static group for other players
-        this.otherPlayers = this.physics.add.group();
 
-        this.cursors = this.input.keyboard.createCursorKeys();
-
+        this.socket.on('change velocity', (data) => {
+            let playerID=data.playerID;
+            players.playerID.body.setVelocityX(data.velocityX)
+        })
     }
 
     update() {
 
-        if (this.ship) {
-            console.log("*******************",this.ship)
-            if (this.cursors.left.isDown) {
-                this.ship.setAngularVelocity(-150);
-            } else if (this.cursors.right.isDown) {
-                this.ship.setAngularVelocity(150);
-            } else {
-                this.ship.setAngularVelocity(0);
-            }
-            if (this.cursors.up.isDown) {
-                this.physics.velocityFromRotation(this.ship.rotation + 1.5, 100, this.ship.body.acceleration);
-            } else {
-                this.ship.setAcceleration(0);
-            }
-            this.physics.world.wrap(this.ship, 5);
-        }
+        // if (this.ship) {
+        //     console.log("this.ship**********",this.ship)
+        //     if (this.cursors.left.isDown) {
+        //         this.ship.body.setAngularVelocity(-150);
+        //     } else if (this.cursors.right.isDown) {
+        //         this.ship.body.setAngularVelocity(150);
+        //     } else {
+        //         this.ship.body.setAngularVelocity(0);
+        //     }
+
+        //     if (this.cursors.up.isDown) {
+        //         this.physics.velocityFromRotation(this.ship.body.rotation + 1.5, 100, this.ship.body.acceleration);
+        //     } else {
+        //         this.ship.body.setAcceleration(0);
+        //     }
+
+        //     this.physics.world.wrap(this.ship, 5);
+        // }
     }
 
 
@@ -90,7 +100,6 @@ export default class GameScene extends Phaser.Scene {
         }
         otherPlayer.playerId = playerInfo.playerId;
         this.otherPlayers.add(otherPlayer);
-
     }
 
 
