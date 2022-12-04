@@ -16,13 +16,16 @@ const config = {
     }
 };
 
-class Game extends Phaser.Game {
-    constructor() {
-        super(config);
-        this.scene.start('Game')
-    }
-}
+
+
+// class Game extends Phaser.Game {
+//     constructor() {
+//         super(config);
+//         console.log("hello from index.js")
+//         // this.scene.start('Game')
+//     }
+// }
 
 window.onload = () => {
-    window.game = new Game(config);
+    window.game = new Phaser.Game(config);
 };

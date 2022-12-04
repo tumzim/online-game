@@ -3,7 +3,7 @@ import * as Phaser from 'phaser';
 
 export default class BootScene extends Phaser.Scene {
     constructor() {
-        super('Boot');
+        super('Boot')
     }
 
     preload() {
@@ -17,10 +17,8 @@ export default class BootScene extends Phaser.Scene {
     }
 
     create() {
-     
         this.scene.start('Game')
     }
-
 
 }
 
