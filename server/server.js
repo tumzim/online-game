@@ -12,6 +12,7 @@ const port = 3000;
 // object keeps track of all the players that are currently in the game.
 var players = {}
 
+console.log(players)
 io.on('connection', function (socket) {
     console.log('a user connected');
     socket.on('disconnect', function () {

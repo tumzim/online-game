@@ -12,31 +12,33 @@ export default class GameScene extends Phaser.Scene {
     }
 
     socketEvents() {
-        this.socket.on('currentPlayers', (players) => {
-            Object.keys(players).forEach((id) => {
-                // console.log("************socket", this.socket.id)
-                // console.log('*******playerID', id)
-                // console.log(players[id])
-                if (players[id].playerId === this.socket.id) {
-                    this.addPlayer(players[id])
-                }
-                else {
-                    this.addOtherPlayers(players[id]);
-                }
-            })
-        })
+        // this.socket.on('currentPlayers', (players) => {
+        //     Object.keys(players).forEach((id) => {
+        //         console.log("************socket", this.socket.id)
+        //         console.log('*******playerID', id)
+        //         console.log(players[id])
+        //         if (players[id].playerId === this.socket.id) {
+        //             this.addPlayer(players[id])
+        //         }
+        //         else {
+        //             this.addOtherPlayers(players[id]);
+        //         }
+        //     })
+        // })
 
-        this.socket.on('newPlayer', (playerInfo) => {
-            this.addOtherPlayers(playerInfo);
-        });
+        // this.socket.on('newPlayer', (playerInfo) => {
+        //     this.addOtherPlayers(playerInfo);
 
-        this.socket.on('playerDisconnect', (playerId) => {
-            this.otherPlayers.getChildren().forEach(function (otherPlayer) {
-                if (playerId === otherPlayer.playerId) {
-                    otherPlayer.destroy();
-                }
-            });
-        });
+        // });
+
+        // this.socket.on('playerDisconnect', (playerId) => {
+        //     console.log("disconnect", playerId)
+        //     this.otherPlayers.getChildren().forEach((otherPlayer) => {
+        //         if (playerId === otherPlayer.playerId) {
+        //             otherPlayer.destroy();
+        //         }
+        //     });
+        // });
     }
 
     create() {
@@ -49,22 +51,22 @@ export default class GameScene extends Phaser.Scene {
 
     update() {
 
-        if (this.ship) {
-            console.log("*******************",this.ship)
-            if (this.cursors.left.isDown) {
-                this.ship.setAngularVelocity(-150);
-            } else if (this.cursors.right.isDown) {
-                this.ship.setAngularVelocity(150);
-            } else {
-                this.ship.setAngularVelocity(0);
-            }
-            if (this.cursors.up.isDown) {
-                this.physics.velocityFromRotation(this.ship.rotation + 1.5, 100, this.ship.body.acceleration);
-            } else {
-                this.ship.setAcceleration(0);
-            }
-            this.physics.world.wrap(this.ship, 5);
-        }
+        // if (this.ship) {
+        //     console.log("*******************", this.ship)
+        //     if (this.cursors.left.isDown) {
+        //         this.ship.setAngularVelocity(-150);
+        //     } else if (this.cursors.right.isDown) {
+        //         this.ship.setAngularVelocity(150);
+        //     } else {
+        //         this.ship.setAngularVelocity(0);
+        //     }
+        //     if (this.cursors.up.isDown) {
+        //         this.physics.velocityFromRotation(this.ship.rotation + 1.5, 100, this.ship.body.acceleration);
+        //     } else {
+        //         this.ship.setAcceleration(0);
+        //     }
+        //     this.physics.world.wrap(this.ship, 5);
+        // }
     }
 
 
@@ -81,17 +83,17 @@ export default class GameScene extends Phaser.Scene {
         this.ship.setMaxVelocity(200);
     }
 
-    addOtherPlayers(playerInfo) {
-        const otherPlayer = this.add.sprite(playerInfo.x, playerInfo.y, 'otherPlayer').setOrigin(0.5, 0.5).setDisplaySize(53, 40);
-        if (playerInfo.team === 'blue') {
-            otherPlayer.setTint(0x0000ff);
-        } else {
-            otherPlayer.setTint(0xff0000);
-        }
-        otherPlayer.playerId = playerInfo.playerId;
-        this.otherPlayers.add(otherPlayer);
+    // addOtherPlayers(playerInfo) {
+    //     const otherPlayer = this.add.sprite(playerInfo.x, playerInfo.y, 'otherPlayer').setOrigin(0.5, 0.5).setDisplaySize(53, 40);
+    //     if (playerInfo.team === 'blue') {
+    //         otherPlayer.setTint(0x0000ff);
+    //     } else {
+    //         otherPlayer.setTint(0xff0000);
+    //     }
+    //     otherPlayer.playerId = playerInfo.playerId;
+    //     this.otherPlayers.add(otherPlayer);
 
-    }
+    // }
 
 
 
